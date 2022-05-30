@@ -1,0 +1,108 @@
+import java.util.*;
+public class tictoc {
+	static Scanner sc=new Scanner(System.in);
+	static Random r=new Random();
+	public static void main(String[] args) {
+  // 2d Character Arrays with blanks...
+		char[][] board= {{' ', ' ',' '},{' ',' ',' '},{' ',' ',' '}};
+    //to make the board visible...
+		printBoard(board);
+
+		while(true) {
+			if(isGameover(board)) {
+				break;
+				}
+			pTurn(board);
+			printBoard(board);
+			if(isGameover(board)) {
+				break;
+				}
+			computerTurn(board);
+			printBoard(board);
+		}
+		
+	}
+	private static boolean isGameover(char[][] board) {
+	// to check who won...
+  if(whoWon(board,'X')) {
+			System.out.println("You Wonnn!!!");
+			return true;}
+		else if(whoWon(board, 'O')) {
+			System.out.println("Computer Won");
+			return true;}
+      // to check if there is spot is left over to proceed..
+		for(int i=0;i<board.length;i++) {
+			for(int j=0;j<board.length;j++) {
+				if(board[i][j]==' ') {
+					return false;}}}
+		printBoard(board);
+		System.out.println("Game Over1");
+		return true;
+	}
+  //it is computer turn
+	private static void computerTurn(char[][] board) {
+		int i;
+		while(true) {
+			i= r.nextInt(9)+1;
+			if(isValid(board, i))break;
+		}
+		playMode(board,i,'O');
+		System.out.println("Computer Move is :"+i);
+		}
+    //it is players move to proceed...
+	private static void pTurn(char[][] board) {
+		int pos;
+		while(true) {
+			System.out.println("Where U wanaa Play?(1-9)");
+			pos=sc.nextInt();
+			if(isValid(board, pos))break;
+			else System.out.println(pos +"is not valid");
+			}
+		playMode(board, pos, 'X');
+	}
+	private static void playMode(char[][] board ,int i,char ip) {
+		switch(i) {	case 1:board[0][0]=ip;break;
+		case 2:board[0][1]=ip;break;
+		case 3:board[0][2]=ip;break;
+		case 4:board[1][0]=ip;break;
+		case 5:board[1][1]=ip;break;
+		case 6:board[1][2]=ip;break;
+		case 7:board[2][0]=ip;break;
+		case 8:board[2][1]=ip;break;
+		case 9:board[2][2]=ip;break;
+		default:System.out.println(":(");
+		}
+	}
+  //creating Board.....
+	private static void printBoard(char[][] board) {
+		System.out.println(board[0][0] +"|"+board[0][1]+"|"+board[0][2]);System.out.println("-+"+"-+-");
+		System.out.println(board[1][0] +"|"+board[1][1]+"|"+board[1][2]);System.out.println("-+"+"-+-");
+		System.out.println(board[2][0] +"|"+board[2][1]+"|"+board[2][2]);
+	}
+  // to check weather  it is a valid move by player & computer... 
+	private static boolean isValid(char [][] board,int pos) {
+		switch (pos) {case 1: {return board[0][0]==' ';}
+		case 2:{return board[0][1]==' ';}
+		case 3:{return board[0][2]==' ';}
+		case 4:{return board[1][0]==' ';}
+		case 5:{return board[1][1]==' ';}
+		case 6:{return board[1][2]==' ';}
+		case 7:{return board[2][0]==' ';}
+		case 8:{return board[2][1]==' ';}
+		case 9:{return board[2][2]==' ';}
+		default:return true;}}
+    // finally the result....
+	private static boolean whoWon(char[][] board, char ip) {
+		if((board[0][0]==ip&&board[0][1]==ip&&board[0][2]==ip||
+			board[1][0]==ip&&board[1][1]==ip&&board[1][2]==ip||
+			board[2][0]==ip&&board[2][1]==ip&&board[2][2]==ip||
+		    board[0][0]==ip&&board[1][0]==ip&&board[2][0]==ip||
+			board[0][1]==ip&&board[1][1]==ip&&board[2][1]==ip||
+			board[0][2]==ip&&board[1][2]==ip&&board[2][2]==ip||
+			board[0][0]==ip&&board[1][1]==ip&&board[2][2]==ip||
+			board[0][2]==ip&&board[1][1]==ip&&board[2][0]==ip)){
+				return true;
+				}
+		return false;
+	}
+}
